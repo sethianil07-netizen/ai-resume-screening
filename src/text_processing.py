@@ -10,7 +10,12 @@ import spacy
 
 # Load the spaCy English model once, at import time,
 # so we're not reloading it on every function call.
-_nlp = spacy.load("en_core_web_sm")
+try:
+    _nlp = spacy.load("en_core_web_sm")
+except OSError:
+    from spacy.cli import download
+    download("en_core_web_sm")
+    _nlp = spacy.load("en_core_web_sm")
 
 
 def clean_text(raw_text):

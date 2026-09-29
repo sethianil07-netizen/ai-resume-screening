@@ -9,7 +9,12 @@ resume (matched vs missing skills).
 import re
 import spacy
 
-_nlp = spacy.load("en_core_web_sm")
+try:
+    _nlp = spacy.load("en_core_web_sm")
+except OSError:
+    from spacy.cli import download
+    download("en_core_web_sm")
+    _nlp = spacy.load("en_core_web_sm")
 
 COMMON_SKILLS = [
     "python", "java", "javascript", "sql", "excel", "communication",
